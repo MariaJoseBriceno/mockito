@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 import org.mjbr.mockito.ejemplos.models.Examen;
 import org.mjbr.mockito.ejemplos.services.ExamenService;
 import org.mjbr.mockito.ejemplos.services.ExamenServiceImpl;
-import org.mockito.Mockito;
 
 import java.util.*;
 
@@ -45,10 +44,6 @@ class ExamenRepositoryImplTest {
         Optional<Examen> examen = service.findExamenPorNombre("Historia");
 
         assertTrue(examen.isEmpty());
-
-
-
-
 
     }
 }
