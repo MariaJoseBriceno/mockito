@@ -1,5 +1,6 @@
 package org.mjbr.mockito.ejemplos.repositories;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mjbr.mockito.ejemplos.models.Examen;
 import org.mjbr.mockito.ejemplos.services.ExamenService;
@@ -13,12 +14,19 @@ import static org.mockito.Mockito.when;
 
 class ExamenRepositoryImplTest {
 
+    ExamenRepository repository;
+    ExamenService service;
+    PreguntaRepository preguntaRepository;
+
+    @BeforeEach
+    void setUp() {
+        repository = mock(ExamenRepository.class);
+        preguntaRepository = mock(PreguntaRepository.class);
+        service = new ExamenServiceImpl(repository, preguntaRepository);
+    }
+
     @Test
     void findExamenPorNombre() {
-        ExamenRepository repository = mock(ExamenRepository.class);
-
-        ExamenService service = new ExamenServiceImpl(repository);
-
         List<Examen> datos = Arrays.asList(
                 new Examen(5L, "Matematicas"),
                 new Examen(6L, "Lenguaje"),
@@ -35,15 +43,10 @@ class ExamenRepositoryImplTest {
 
     @Test
     void findExamenPorNombreListaVacia() {
-        ExamenRepository examenRepository = mock(ExamenRepository.class);
-        ExamenService service = new ExamenServiceImpl(examenRepository);
-
         List<Examen> datos = Collections.emptyList();
-
-        when(examenRepository.findAll()).thenReturn(datos);
+        when(repository.findAll()).thenReturn(datos);
         Optional<Examen> examen = service.findExamenPorNombre("Historia");
-
-        assertTrue(examen.isEmpty());
+        assertFalse(examen.isPresent());
 
     }
 }
